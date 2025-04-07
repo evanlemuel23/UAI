@@ -5,6 +5,17 @@ import { GEMINI_API_KEY } from './constants';
 // Initialize Gemini
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 
+/**
+ * Clean Gemini API response by removing Markdown code block formatting
+ */
+function cleanGeminiResponse(responseText: string): string {
+  // Remove Markdown code block formatting if present
+  return responseText
+    .replace(/```(json)?\s*/g, '') // Remove starting ```json or just ```
+    .replace(/```$/g, '')          // Remove ending ```
+    .trim();
+}
+
 export async function analyzeImage(imageBase64: string, dictOfVars: Record<string, any> = {}) {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   const dictOfVarsStr = JSON.stringify(dictOfVars);
@@ -46,14 +57,20 @@ PROPERLY QUOTE THE KEYS AND VALUES IN THE DICTIONARY FOR EASIER PARSING WITH Jav
 
     let answers = [];
     try {
-      // First try normal JSON parsing
-      answers = JSON.parse(responseText);
+      // First clean the response text to remove any markdown formatting
+      const cleanedText = cleanGeminiResponse(responseText);
+      console.log('Cleaned text:', cleanedText);
+      
+      // Try to parse the cleaned text
+      answers = JSON.parse(cleanedText);
     } catch (e) {
       console.error('Error with standard JSON parsing, attempting to fix format:', e);
       
       try {
-        // Try to convert Python-style single quotes to JSON-compatible double quotes
+        // If still failing, try to convert Python-style single quotes to JSON-compatible double quotes
         const fixedText = responseText
+          .replace(/```(json)?\s*/g, '') // Remove code block markers
+          .replace(/```$/g, '')
           .replace(/'/g, '"') // Replace all single quotes with double quotes
           .replace(/([a-zA-Z0-9_]+):/g, '"$1":') // Add quotes around keys without quotes
           .replace(/:\s*"?([0-9]+)"?/g, ': $1'); // Remove quotes around numeric values
