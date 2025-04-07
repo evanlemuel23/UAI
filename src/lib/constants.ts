@@ -1,3 +1,3 @@
 
-// Replace this with your actual API key or use environment variables
-export const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY";
+// Your Gemini API key
+export const GEMINI_API_KEY = "AIzaSyDQjU0qpkJjrwh-H-Uwn5Au78rLmmXzvKo";
