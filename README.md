@@ -12,21 +12,21 @@ Create an interactive online quiz platform where users can **create** and **take
 
 ---
 
-### ✨ Key Features
+### Key Features
 
-- 🛠 **Quiz Creation**  
+-  **Quiz Creation**  
   Examiners can add custom questions with **multiple-choice answers**.
 
-- 🧑‍🎓 **Quiz Attempting**  
+-  **Quiz Attempting**  
   Users can take quizzes and receive **instant scores** upon completion.
 
-- 🏆 **Leaderboard**  
+-  **Leaderboard**  
   Track **high scorers** and encourage healthy competition.
 
-- 🔐 **User Authentication**  
+-  **User Authentication**  
   A login system allows secure access for quiz creators and takers using **Supabase Auth**.
 
-- 📊 **Analytics Dashboard**  
+-  **Analytics Dashboard**  
   Monitor quiz performance, accuracy, and participation with integrated **analytics**.
 
 ---
